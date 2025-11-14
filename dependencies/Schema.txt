@@ -1,0 +1,40 @@
+-- Create the 'movies' table (no dependencies)
+CREATE TABLE movies (
+    id INT PRIMARY KEY,
+    title TEXT,
+    release DATE
+);
+
+-- Create the 'users' table (no dependencies)
+CREATE TABLE users (
+    id INT PRIMARY KEY,
+    first_name TEXT,
+    last_name TEXT,
+    email TEXT UNIQUE, -- Enforces a unique email address for each user
+    password TEXT,
+    mobile TEXT,
+    birth DATE
+);
+
+-- Create the 'reviews' table (depends on 'movies' and 'users')
+CREATE TABLE reviews (
+    id INT PRIMARY KEY,
+    movie_id INT,
+    review TEXT,
+    rating INT,
+    user_id INT,
+    modified TIMESTAMP,
+    FOREIGN KEY (movie_id) REFERENCES movies(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
+
+-- Create the 'shares' junction table (depends on 'reviews' and 'users')
+-- This table manages the many-to-many relationship between users and reviews.
+-- The composite primary key (review_id, user_id) ensures a user can only share a review once.
+CREATE TABLE shares (
+    review_id INT,
+    user_id INT,
+    PRIMARY KEY (review_id, user_id), -- Composite primary key
+    FOREIGN KEY (review_id) REFERENCES reviews(id),
+    FOREIGN KEY (user_id) REFERENCES users(id)
+);
