@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'D3_93025_Omkar',
     password: 'manager',
-    database: 'airbnb_db'
+    database: 'movie_review'
 })
 
 module.exports = pool
